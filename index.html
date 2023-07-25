@@ -14,14 +14,31 @@
                 <img src="logo.png" alt="" >
             </a>
             <div class="nav-links">
-              <button class="Sudoku hover-link" id="getSudoku" onclick="getSudoku()">Get Sudoku</button>
-              <button class="Sudoku hover-link" id="solveSudoku" onclick="solveSudoku()">Solve Sudoku</button>
+              <button class="Sudoku hover-link" id="inputSudoku" >Input Your Own Sudoku</button>
+              <button class="Sudoku hover-link" id="getSudoku" >Get Sudoku</button>
+              <button class="Sudoku hover-link" id="solveSudoku" >Solve Sudoku</button>
+              <button class="Sudoku hover-link" id="solveInputSudoku" >Solve Input Sudoku</button>
             </div>
         </div>
     </nav>
     <main>
         <div class="sudokuBoard" id="sudokuBoard"></div>
     </main>
+    <div class="footer" id="footer">
+        <div class=" flex container>
+        <a href="#" class="logo" id="footer-logo">
+            <img class="footer-img" src="logo.png" alt="" >
+        </a>
+        <p class="aboutus">
+            This webpage helps you solve a sudoku using  <I><b> Recursion and Backtracking.</b></I> 
+        </p>
+        <div class="OurLinks">
+            <ul class="flex">
+                <li class="links hover-link" id="linkedin" onclick="socialMedia('linkedin')"> <img  class="social-media" src="static/linkedin.png" alt="" srcset="">LinkedIn</li>
+                <li class="links hover-link" id="github" onclick="socialMedia('github')"><img class="social-media" src="static/github.png" alt="" srcset="">GitHub</li>
+            </ul>
+        </div>
+    </div>
    
 </body>
 <script type="module" src="js/script.js"></script>

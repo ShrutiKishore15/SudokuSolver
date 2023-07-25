@@ -1,59 +1,29 @@
-
-
-const url="https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value}}}";
-let sudokuInitial=[];
-let sudokuFinal=[];
-
-export async function getSudoku(){
-    let solving=document.getElementById("solveSudoku");
-    console.log(window.getComputedStyle(solving).display=="none");
-    if(window.getComputedStyle(solving).display=="none"){
-        clearInputs();
-        document.getElementById("solveInputSudoku").style.display="none";
-        solving.style.display="inline";
-    }else{
-        clearValues();
-    }
-    const response= await fetch(`${url}`);
-    const data=await response.json();
-    const board=data.newboard.grids;
-    //console.log(board[0].value);
-    sudokuInitial=board[0].value;
-   // sudokuFinal=[...board[0].value];
-    for(let i=0; i<9; i++){
-        let innerArray=[];
-        for(let j=0; j<9; j++){
-            innerArray.push(sudokuInitial[i][j]);
-        }
-        sudokuFinal.push(innerArray);
-    }
-    displaySudoku(board[0].value)
-    
+let board = [];
+let puzzleInitial=[];
+let puzzleFinal=[];
+export function InputSudokuFunc(){
+    clearBoard();
+    drawInputBoard();
+    return true;
 }
-function clearInputs(){
-    let parent=document.getElementById("sudokuBoard");
+function clearBoard(){
     for(let i=0; i<81; i++){
-        let id=i.toString()+"input";
-        let cellR=document.getElementById(id);
+        let cellR=document.getElementById(i.toString());
         cellR.remove();
     }
-    drawBoard();
 }
- function clearValues(){
-    for(let i=0; i<81; i++){
-        let sudokuCell=document.getElementById(i.toString());
-        sudokuCell.innerHTML="";
-    }
-}
-export function drawBoard(){
-    const sudokuBoard=document.querySelector("#sudokuBoard");
+function drawInputBoard(){
+    const sudokuBoard = document.querySelector("#sudokuBoard")
     const squares = 81
 
     for (let i=0; i<squares; i++) {
-        const inputElement = document.createElement("div")
+        const inputElement = document.createElement("input")
         inputElement.classList.add('cell');
-        //inputElement.classList.add('flex');
-        inputElement.setAttribute("id", i.toString() );
+        inputElement.setAttribute('type', 'number')
+        inputElement.setAttribute('min', '1')
+        inputElement.setAttribute('max', '9')
+        let idElement=i.toString()+"input"
+        inputElement.setAttribute('id', idElement);
 
         if (
             ((i % 9 == 0 || i % 9 == 1 || i % 9 == 2) && i < 21) ||
@@ -67,42 +37,51 @@ export function drawBoard(){
 
         sudokuBoard.appendChild(inputElement)
     }
+    document.getElementById("solveSudoku").style.display="none";
+    document.getElementById("solveInputSudoku").style.display="inline";
 }
- function displaySudoku(sudoku){
-    //const board=document.querySelector("#sudokuBoard");
-    //console.log(sudoku);
+export function insertValues() {
+    const inputs = document.querySelectorAll('input')
+    
+    inputs.forEach((input) => {
+        if(input.value) {
+            board.push(parseInt(input.value))
+            input.classList.add('input-el') 
+        } else {
+            board.push(0)
+            input.classList.add('empty-el')
+        }
+    })
+    addinPuzzle(board);
+}
+function addinPuzzle(input){
     let count=0;
     for(let i=0; i<9; i++){
+        smallArr=[];
         for(let j=0; j<9; j++){
-            if(sudoku[i][j]!==0){
-                
-                let sudokuCell=document.getElementById(count.toString());
-                sudokuCell.innerHTML=sudoku[i][j];
-                
-            }
+            smallArr.push(input[count]);
             count++;
         }
+        puzzleInitial.push(smallArr);
+        puzzleFinal.push(smallArr);
     }
 }
-
-
-export function solveSudoku(){
-    solveHelper(sudokuFinal);
-    printFinalSudoku(sudokuFinal, sudokuInitial);
+export function solveInput(){
+    solveHelper2(puzzleFinal);
+    printFinalSudoku(puzzleFinal, puzzleInitial);
 }
-// let countBoard=-1;
-export function solveHelper(board) {
+function solveHelper2(board){
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             // countBoard++;
             if (board[i][j] === 0) {
                 for (let ch = 1; ch <= 9; ch++) {
-                    if (isValid(ch, i, j, board)) {
+                    if (isValid2(ch, i, j, board)) {
                         board[i][j] = ch;
                         // let boardCell1=document.getElementById(countBoard.toString());
                         // boardCell1.innerHTML=ch;
                         // boardCell1.style.color="rgba(206,28,44,255)";
-                        if (solveHelper(board)) {
+                        if (solveHelper2(board)) {
                             return true;
                         } else {
                             board[i][j] = 0;
@@ -117,8 +96,7 @@ export function solveHelper(board) {
     }
     return true;
 }
-
-function isValid(ch, row, col, board) {
+function isValid2(ch, row, col, board) {
     for (let i = 0; i < 9; i++) {
         if (board[i][col] === ch) return false;
         if (board[row][i] === ch) return false;
@@ -143,3 +121,6 @@ export function printFinalSudoku(board, sudokuInitial){
     }
 
 }
+
+
+
