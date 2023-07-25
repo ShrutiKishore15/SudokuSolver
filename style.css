@@ -144,6 +144,7 @@ main{
     list-style: none;
     color: var(--section-color);
     font-family: "Poppins", "Times New Roman";
+    margin-right: 18px;
 }
 .social-media{
     width:30px;

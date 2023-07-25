@@ -46,29 +46,28 @@ export function insertValues() {
     inputs.forEach((input) => {
         if(input.value) {
             board.push(parseInt(input.value))
-            input.classList.add('input-el') 
+            //input.classList.add('input-el') 
         } else {
             board.push(0)
-            input.classList.add('empty-el')
+            //input.classList.add('empty-el')
         }
     })
-    addinPuzzle(board);
+    addinPuzzle(board, puzzleFinal, puzzleInitial);
 }
-function addinPuzzle(input){
+function addinPuzzle(input, puzzleFinal, puzzleInitial){
     let count=0;
-    for(let i=0; i<9; i++){
-        smallArr=[];
-        for(let j=0; j<9; j++){
-            smallArr.push(input[count]);
-            count++;
-        }
-        puzzleInitial.push(smallArr);
-        puzzleFinal.push(smallArr);
+    for (let i = 0; i < 9; i++) {
+        puzzleFinal.push(input.slice(i * 9, (i + 1) * 9));
+        puzzleInitial.push(input.slice(i * 9, (i + 1) * 9));
     }
 }
+
 export function solveInput(){
+    insertValues();
     solveHelper2(puzzleFinal);
-    printFinalSudoku(puzzleFinal, puzzleInitial);
+    // console.log(puzzleFinal);
+    // console.log(puzzleInitial);
+   printFinalSudoku(puzzleFinal, puzzleInitial);
 }
 function solveHelper2(board){
     for (let i = 0; i < 9; i++) {
@@ -112,9 +111,10 @@ export function printFinalSudoku(board, sudokuInitial){
     for(let i=0; i<9; i++){
         for(let j=0; j<9; j++){
             if(sudokuInitial[i][j]===0){
-                let sudokuCell=document.getElementById(count.toString());
-                sudokuCell.innerHTML=board[i][j];   
-                sudokuCell.style.color="rgba(206,28,44,255)";
+                let idOfCell=count.toString()+"input";
+                let sudokuCellInput=document.getElementById(idOfCell);
+                sudokuCellInput.value=board[i][j];   
+                sudokuCellInput.style.color="rgba(206,28,44,255)";
             } 
             count++;
         }
