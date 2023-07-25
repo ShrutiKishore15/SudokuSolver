@@ -1,4 +1,4 @@
-import { drawBoard, getSudoku, solveSudoku } from "./sudokuLogic.js";
+import { drawBoard, getSudoku, solveSudoku } from "./SudokuLogic.js";
 import { InputSudokuFunc, solveInput } from "./InputSudokuGame.js";
 import { socialMedia } from "./socialMediaFile.js";
 window.socialMedia=socialMedia;
